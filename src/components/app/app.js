@@ -15,11 +15,11 @@ class App extends Component {
     this.state = {
       data: [
         { name: "John", salary: 800, increase: true, rise: false, id: 1 },
-        { name: "Alex", salary: 950, increase: true, rise: false, id: 2 },
-        { name: "Smit", salary: 2000, increase: false, rise: true, id: 3 },
+        { name: "Alex", salary: 950, increase: false, rise: true, id: 2 },
+        { name: "Smit", salary: 2000, increase: false, rise: false, id: 3 },
       ],
       term: "",
-      filter: "moreThen1000",
+      filter: "all",
     };
 
     this.maxId = 4;
@@ -82,6 +82,12 @@ class App extends Component {
     this.setState({ filter });
   };
 
+  onChangeSalary = (id, salary) => {
+    this.setState(({ data }) => ({
+      data: data.map((item) => (item.id === id ? { ...item, salary } : item)),
+    }));
+  };
+
   render() {
     const { data, term, filter } = this.state;
     const employers = this.state.data.length;
@@ -101,6 +107,7 @@ class App extends Component {
           data={visibleData}
           onDelete={this.deleteItem}
           onToggleProp={this.onToggleProp}
+          onChangeSalary={this.onChangeSalary}
         />
         <EmployeesAddForm onAdd={this.addItem} />
       </div>
